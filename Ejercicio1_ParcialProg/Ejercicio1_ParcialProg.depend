@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1574688266 source:d:\parcialprog\ejercicio1_parcialprog\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
