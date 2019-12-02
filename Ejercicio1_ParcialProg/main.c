@@ -41,7 +41,7 @@ eParcial* new_Parcial()
 
 eParcial* new_Parcial_Param(int id, char alumno[50], int nota)
 {
-    eParcial* Parcial = malloc(sizeof(eParcial));
+    eParcial* Parcial = new_Parcial();
     Parcial->id = id;
     strcpy(Parcial->alumno, alumno);
     Parcial->nota = nota;
@@ -59,7 +59,8 @@ void Ejercicio1_A()
     nuevoParcial->id = idTest;
     nuevoParcial->nota = notaTest;
     printf("\nCodigo: %d --> Alumno: %s --> Nota: %d ", nuevoParcial->id, nuevoParcial->alumno, nuevoParcial->nota);
-    guardarBinario("Prueba1.dat", nuevoParcial);
+    guardarBinario("Prueba1.bin", &nuevoParcial);
+    leerBinario("Prueba1.bin");
 }
 void Ejercicio1_B()
 {
@@ -69,7 +70,8 @@ void Ejercicio1_B()
     int notaTest = 7;
     eParcial* nuevoParcial = new_Parcial_Param(idTest, alumnoTest, notaTest);
     printf("\nCodigo: %d --> Alumno: %s --> Nota: %d ", nuevoParcial->id, nuevoParcial->alumno, nuevoParcial->nota);
-    guardarBinario("Prueba2.dat", nuevoParcial);
+    guardarBinario("Prueba2.bin", &nuevoParcial);
+    leerBinario("Prueba2.bin");
 }
 
 int guardarBinario(char* path, eParcial* miParcial)
@@ -79,13 +81,28 @@ int guardarBinario(char* path, eParcial* miParcial)
     if(ArchivoBinario != NULL)
     {
         //fprintf(ArchivoBinario, "Codigo: %d ---> Alumno: %s ---> Nota: %d", miParcial->id, miParcial->alumno, miParcial->nota);
-        fwrite(miParcial, sizeof(miParcial), 1, ArchivoBinario);
+        fwrite(&miParcial, sizeof(miParcial), 1, ArchivoBinario);
               // fwrite(&miParcial->id, sizeof(int), 4, ArchivoBinario);
        // fwrite(&miParcial->id, sizeof(int), 4, ArchivoBinario);
+        fflush(ArchivoBinario);
         fclose(ArchivoBinario);
     }
     else
     {
         printf("\nNo se pudo leer el archivo en la ruta especificada.\n");
     }
+}
+
+void leerBinario(char * path)
+{
+    eParcial * MiParcial = new_Parcial();
+    FILE * ArchivoBinario;
+    ArchivoBinario = fopen(path, "rb");
+    if(ArchivoBinario != NULL)
+    {
+        fread(&MiParcial, sizeof(MiParcial), 1, ArchivoBinario);
+        printf("\n\n %d", MiParcial->);
+        fclose(ArchivoBinario);
+    }
+
 }
